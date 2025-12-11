@@ -6,7 +6,7 @@
 
 模組﹕
 
-' from Tim Williams的解答 (https://stackoverflow.com/questions/6688131/test-or-check-if-sheet-exists)
+' Function from Tim Williams的解答 (https://stackoverflow.com/questions/6688131/test-or-check-if-sheet-exists)
 
     Function WorksheetExists(shtName As String, Optional wb As Workbook) As Boolean
         Dim sht As Worksheet
@@ -17,21 +17,28 @@
         WorksheetExists = Not sht Is Nothing
     End Function
 
-
+' Call Table
 
     Sub CallTable_Split()
         Load 參數表格
         參數表格.Show
     End Sub
 
-
+'「參數表格」的模樣﹕
 <img width="542" height="393" alt="image" src="https://github.com/user-attachments/assets/aebaa514-499a-41b7-a062-b00f8829381f" />
 
+
 「參數表格」內﹕
+
+'每個鍵的Name+Value，可以Return到程式。(如「TableType1_0.Value = TRUE」)
+
+'按取消鍵觸發
 
     Private Sub 取消_Click()
         Unload 參數表格
     End Sub
+
+'按確定鍵觸發
 
     Private Sub 確定_Click()
         Dim ExportFileName As String
@@ -128,9 +135,6 @@
             Sheets(keyword_type).Move
             Cells(Row + 1, "A").Select
             ActiveWindow.FreezePanes = True
-            '保護，此處通用版應該不需要
-            'ActiveSheet.Protection.AllowEditRanges.Add Title:="Range", Range:=Union(Columns("$D:$D"), Columns("$M:$M"), Columns("$O:$U"))
-            'ActiveSheet.Protect DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowSorting:=True, AllowFiltering:=True
             ChDir thisWorkbookPath
             ActiveWorkbook.SaveAs fileName:=newFileName, FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
             ActiveWindow.Close
